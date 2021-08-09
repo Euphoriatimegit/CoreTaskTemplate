@@ -80,7 +80,7 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.executeUpdate();
             connectionCR(savepoint);
         } catch (SQLException e) {
-            System.out.println("commit error");
+            e.printStackTrace();
         } finally {
             closeConnection(statement, connection,resultSet,preparedStatement);
         }
