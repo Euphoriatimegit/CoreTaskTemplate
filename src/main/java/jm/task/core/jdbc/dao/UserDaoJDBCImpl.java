@@ -58,8 +58,11 @@ public class UserDaoJDBCImpl implements UserDao {
     public void saveUser(String name, String lastName, byte age) {
         try {
             connection = Util.getConnection();
-            String sql = "INSERT INTO `mydatabase`.`user` (`name`, `lastName`, `age`) VALUES ('" + name + "','" + lastName + "','" + age + "')";
+            String sql = "INSERT INTO `mydatabase`.`user` (`name`, `lastName`, `age`) VALUES (?,?,?)";
             preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,name);
+            preparedStatement.setString(2,lastName);
+            preparedStatement.setInt(3,age);
             savepoint = connection.setSavepoint();
             preparedStatement.executeUpdate();
             connectionCR(savepoint);
@@ -74,8 +77,9 @@ public class UserDaoJDBCImpl implements UserDao {
     public void removeUserById(long id) {
         try {
             connection = Util.getConnection();
-            String sql = "DELETE FROM `mydatabase`.`user` WHERE (`id` = '" + id + "')";
+            String sql = "DELETE FROM `mydatabase`.`user` WHERE (`id` = ?)";
             preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1,id);
             savepoint = connection.setSavepoint();
             preparedStatement.executeUpdate();
             connectionCR(savepoint);
